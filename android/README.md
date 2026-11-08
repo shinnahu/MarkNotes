@@ -7,7 +7,7 @@ no other company or service.
 | part | file |
 |---|---|
 | Android app | `MarkNotes-Android-<version>.apk` (package `com.marknotes.app`) |
-| PC side | MarkNotes 2.5.1 or later for Windows (`installer\MarkNotes-Setup-<version>.exe`) — the sync is built into MarkNotes |
+| PC side | MarkNotes 2.5.1 or later for Windows (`installer\MarkNotes-Setup-<version>.exe`) - the sync is built into MarkNotes |
 
 ## 1. On the PC (once)
 

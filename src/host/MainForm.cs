@@ -8,7 +8,7 @@ namespace MarkNotes;
 
 /// <summary>
 /// A normal, fully resizable Windows window hosting the web UI in WebView2 (the Edge engine
-/// that ships with Windows — nothing heavy is bundled, so it opens fast).
+/// that ships with Windows - nothing heavy is bundled, so it opens fast).
 /// </summary>
 public sealed class MainForm : Form
 {

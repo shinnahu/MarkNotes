@@ -64,7 +64,7 @@ const tidy = (t) => t.replace(/[ \t]+\n/g, '\n').replace(/\n[ \t]+/g, '\n').repl
 
 /**
  * Pasted HTML with a table (Word, Outlook, a web page) as markdown: its tables as markdown tables, the rest as
- * plain text. Null without a data table — tables used for layout (emails, newsletters) don't count.
+ * plain text. Null without a data table - tables used for layout (emails, newsletters) don't count.
  */
 export function htmlTablesToMarkdown(html) {
   if (!html || !/<table[\s>]/i.test(html)) return null;

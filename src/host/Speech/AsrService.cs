@@ -27,7 +27,7 @@ public sealed class AsrStartOptions
 
 /// <summary>
 /// Offline speech-to-text: records the microphone and/or what the PC is playing (WASAPI
-/// loopback), cuts the audio at pauses and runs whisper.cpp on it — on the GPU through
+/// loopback), cuts the audio at pauses and runs whisper.cpp on it - on the GPU through
 /// Vulkan when available, otherwise on the CPU. Nothing leaves the computer; the only
 /// network access is the one-time model download the user starts in Settings.
 /// </summary>

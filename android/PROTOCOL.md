@@ -1,4 +1,4 @@
-# MarkNotes phone sync — wire protocol v1
+# MarkNotes phone sync - wire protocol v1
 
 The phone (Android app, `android/core/.../sync`) talks straight to MarkNotes on the PC (`src/host/Sync`) over the home
 network. No server, account or other company is involved: a pairing code, a pinned PC key, ECDH + AES-GCM.
@@ -75,15 +75,15 @@ Strictly one request at a time: the phone sends `REQUEST` and waits for its `RES
 | 0x10 | REQUEST | P→PC | `tail` UTF-8 JSON `{op, …}` |
 | 0x90 | RESPONSE | PC→P | `tail` UTF-8 JSON `{ok:true, …}` or `{ok:false, code, error}` |
 | 0x11 / 0x91 | DATA | P→PC / PC→P | `tail` file bytes (≤ 1 MiB per record) |
-| 0x12 / 0x92 | END | P→PC / PC→P | — end of a file's bytes |
+| 0x12 / 0x92 | END | P→PC / PC→P | - end of a file's bytes |
 | 0x5F | BYE | both | `u8 reason str message` |
 
 Paths (`p`) are relative to the workspace folder, with `/`. Workspaces have the same id (`w-xxxxxxxx`) on both sides.
 
 | op | request | response |
 |---|---|---|
-| `info` | — | `{host:{id,name,ver}, features:["history"], addresses:[…], workspaces:[{id,name,dir,color,linked,notes}]}` |
-| `manifest` | `ws` | `{entries:[{p,s,m,h}` or `{p,d:true}]}` — size, mtime (ms), SHA-256 hex; `d` = folder |
+| `info` | - | `{host:{id,name,ver}, features:["history"], addresses:[…], workspaces:[{id,name,dir,color,linked,notes}]}` |
+| `manifest` | `ws` | `{entries:[{p,s,m,h}` or `{p,d:true}]}` - size, mtime (ms), SHA-256 hex; `d` = folder |
 | `get` | `ws p` | `{s,m,h}` then DATA… END; `{ok:false, code:"missing"}` when gone |
 | `put` | `ws p s m h base [run]` then DATA… END | `{h}` (the hash the PC will list); `code:"changed"` when the PC's copy no longer has hash `base` (`base:null` = must not exist) |
 | `delete` | `ws p base [run]` | `{}`; `code:"changed"` as above. The PC moves the file to the Recycle Bin |
