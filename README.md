@@ -4,6 +4,36 @@ Offline notes for Windows and Android: Markdown notes, kanban boards and canvase
 offline transcription on the PC, and a sync that goes straight from your PC to your phone over your own Wi‑Fi. No
 account, no cloud, no other company in between.
 
+![MarkNotes on Windows: a note with a cover picture, a checklist and a table, with workspaces and folders on the left](docs/images/editor.png)
+
+## Live preview
+
+Markdown turns into headings, bold text and checklists as you type.
+
+![Typing a new note: the heading, bold time and checklist render as they are typed, then a task is ticked](docs/images/live-preview.gif)
+
+## Kanban boards and canvases
+
+Boards are written in the Obsidian Kanban plugin's format and canvases are JSON Canvas files, the format Obsidian uses.
+
+<p>
+  <img src="docs/images/kanban.png" width="49%" alt="A kanban board with three lists and coloured tags">
+  <img src="docs/images/canvas.png" width="49%" alt="A canvas with shapes, labelled arrows and a live card of a note">
+</p>
+
+## On your phone
+
+MarkNotes for Android has the same workspaces and notes, and syncs with the PC over your Wi‑Fi. Every sync is listed
+with what it changed, and can be undone.
+
+<p>
+  <img src="docs/images/phone-workspaces.png" width="32%" alt="Workspaces and folders on the phone">
+  <img src="docs/images/phone-note.png" width="32%" alt="A note on the phone, with its cover picture and checklist">
+  <img src="docs/images/phone-sync.png" width="32%" alt="Sync with PC: recent syncs, each with an Undo button">
+</p>
+
+## What's in this repository
+
 | Folder | What it is |
 |---|---|
 | [`src/`](src) | MarkNotes for Windows: a .NET 8 WinForms + WebView2 host and the interface (Preact + CodeMirror 6). See [src/README.md](src/README.md). |
