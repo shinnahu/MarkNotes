@@ -34,6 +34,14 @@ Boards are written in the Obsidian Kanban plugin's format and canvases are JSON 
   <img src="docs/images/canvas.png" width="49%" alt="A canvas with shapes, labelled arrows and a live card of a note">
 </p>
 
+A canvas holds pictures and web links too: YouTube videos and X posts show their preview, and their videos play right
+on the board.
+
+![A moodboard canvas: pictures in a group, a colour palette, a sticky note and a YouTube video card](docs/images/moodboard.png)
+
+<sub>Video on the moodboard: <a href="https://www.youtube.com/watch?v=WhWc3b3KhnY">Spring</a> by Blender Studio,
+CC BY 4.0.</sub>
+
 ## On your phone
 
 MarkNotes for Android has the same workspaces and notes, and syncs with the PC over your Wi‑Fi. Every sync is listed
