@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MarkNotes' page with the code marks (src/art/icon.svg), scaled into the adaptive icon's safe zone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="0.30"
+        android:scaleY="0.30"
+        android:translateX="15.6"
+        android:translateY="15.3">
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M78,44 H156 L196,84 V196 A18,18 0 0,1 178,214 H78 A18,18 0 0,1 60,196 V62 A18,18 0 0,1 78,44 Z" />
+        <path
+            android:fillColor="#FFB9BEFF"
+            android:pathData="M156,44 V70 A14,14 0 0,0 170,84 H196 Z" />
+        <path
+            android:fillColor="#FFB3B9FF"
+            android:pathData="M87.5,72 h41 a5.5,5.5 0 0,1 0,11 h-41 a5.5,5.5 0 0,1 0,-11 z" />
+        <path
+            android:fillColor="#FFCFD3FF"
+            android:pathData="M87.5,94 h67 a5.5,5.5 0 0,1 0,11 h-67 a5.5,5.5 0 0,1 0,-11 z" />
+        <path
+            android:strokeColor="#FF5865F2"
+            android:strokeWidth="15"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M106,132 L84,154 L106,176" />
+        <path
+            android:strokeColor="#FF5865F2"
+            android:strokeWidth="15"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M150,132 L172,154 L150,176" />
+        <path
+            android:strokeColor="#FF8B3FFC"
+            android:strokeWidth="12"
+            android:strokeLineCap="round"
+            android:pathData="M136,124 L120,184" />
+    </group>
+</vector>

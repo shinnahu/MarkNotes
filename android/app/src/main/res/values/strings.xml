@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MarkNotes</string>
+    <string name="share_label">New note in MarkNotes</string>
+    <string name="no_browser">No app can open this link.</string>
+</resources>

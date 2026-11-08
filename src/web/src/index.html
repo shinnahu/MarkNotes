@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- No referrer: X's video server refuses videos asked for by other sites. The YouTube player sets its own policy. -->
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://files.marknotes.example https://i.ytimg.com data: blob:; media-src 'self' https://files.marknotes.example https://video.twimg.com blob:; frame-src https://www.youtube-nocookie.com; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self' data:; connect-src 'self' https://files.marknotes.example">
+  <title>MarkNotes</title>
+  <link rel="stylesheet" href="app.css">
+  <style>
+    html, body { margin: 0; height: 100%; background: var(--bg-2, #313338); }
+    #boot { position: fixed; inset: 0; display: grid; place-items: center; color: #949ba4; font: 13px "Segoe UI", system-ui, sans-serif; }
+  </style>
+</head>
+<body>
+  <div id="boot"></div>
+  <div id="root"></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <linearGradient id="page" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#eceefb"/>
+    </linearGradient>
+    <linearGradient id="badge" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7983ff"/>
+      <stop offset="1" stop-color="#8b3ffc"/>
+    </linearGradient>
+  </defs>
+  <path d="M60 16 H160 L216 72 V226 A14 14 0 0 1 202 240 H60 A14 14 0 0 1 46 226 V30 A14 14 0 0 1 60 16 Z" fill="url(#page)" stroke="#b8bccf" stroke-width="4"/>
+  <path d="M160 16 V60 A12 12 0 0 0 172 72 H216 Z" fill="#d5d8f5" stroke="#b8bccf" stroke-width="4" stroke-linejoin="round"/>
+  <rect x="72" y="62" width="66" height="10" rx="5" fill="#c3c7e6"/>
+  <rect x="72" y="86" width="100" height="10" rx="5" fill="#d6d9ef"/>
+  <rect x="72" y="110" width="84" height="10" rx="5" fill="#d6d9ef"/>
+  <rect x="96" y="138" width="118" height="102" rx="26" fill="url(#badge)"/>
+  <path d="M138 166 L120 189 L138 212" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M172 166 L190 189 L172 212" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

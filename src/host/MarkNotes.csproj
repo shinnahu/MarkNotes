@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>MarkNotes</AssemblyName>
+    <RootNamespace>MarkNotes</RootNamespace>
+    <ApplicationIcon>assets\app.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <ApplicationVisualStyles>true</ApplicationVisualStyles>
+
+    <!-- What Windows shows in "Open with", Task Manager and file properties -->
+    <Product>MarkNotes</Product>
+    <AssemblyTitle>MarkNotes</AssemblyTitle>
+    <Description>MarkNotes - notes and code notepad</Description>
+    <Company>MarkNotes</Company>
+    <Copyright>MarkNotes</Copyright>
+    <Version>2.5.1</Version>
+    <FileVersion>2.5.1.0</FileVersion>
+    <InformationalVersion>2.5.1</InformationalVersion>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>false</SelfContained>
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <TieredPGO>true</TieredPGO>
+    <DebugType>embedded</DebugType>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CA1416;WFO1000</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4258.31" />
+    <PackageReference Include="NAudio.Wasapi" Version="2.2.1" />
+    <PackageReference Include="Whisper.net" Version="1.9.1" />
+    <PackageReference Include="Whisper.net.Runtime" Version="1.9.1" />
+    <PackageReference Include="Whisper.net.Runtime.Vulkan" Version="1.9.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="assets\app.ico" LogicalName="app.ico" />
+    <None Include="assets\note.ico" CopyToOutputDirectory="PreserveNewest" Link="icons\note.ico" />
+  </ItemGroup>
+
+  <!-- The Whisper runtime packages ship natives for every OS; keep only Windows x64. -->
+  <Target Name="TrimWhisperRuntimes" BeforeTargets="AssignTargetPaths;GetCopyToOutputDirectoryItems;_CopyOutOfDateSourceItemsToOutputDirectory">
+    <ItemGroup>
+      <None Remove="@(None)" Condition="'%(None.TargetPath)' != '' and $([System.String]::Copy('%(None.TargetPath)').StartsWith('runtimes')) and !$([System.String]::Copy('%(None.TargetPath)').Contains('win-x64'))" />
+    </ItemGroup>
+  </Target>
+
+</Project>

@@ -1,0 +1,20 @@
+plugins {
+    id 'java-library'
+}
+
+// Runs on Android 8.0+ (API 26) and on desktop JDKs: Java 17 syntax, Java 8 library APIs only.
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+// Plain test runners (no test framework to download): gradlew :core:selfTest
+tasks.register('selfTest', JavaExec) {
+    dependsOn classes
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.marknotes.core.tools.SelfTest'
+}

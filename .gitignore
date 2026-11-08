@@ -1,0 +1,37 @@
+# Only the source is in this repository. Everything else in this folder (the portable copy,
+# built installers, _old, other projects) stays out.
+/*
+!/src/
+!/android/
+!/README.md
+!/.gitignore
+!/.gitattributes
+
+# Build output
+/src/publish/
+/src/web/node_modules/
+/src/web/dist/
+/src/host/bin/
+/src/host/obj/
+/src/tools/
+/android/.gradle/
+/android/**/build/
+/android/*.apk
+/android/local.properties
+
+# The Android signing key never leaves this PC: an APK signed with it installs as an update over the real app.
+/android/keystore/
+/android/keystore.properties
+*.jks
+*.keystore
+*.p12
+*.pfx
+
+# Editors and Windows
+.vs/
+.vscode/
+.idea/
+*.iml
+*.user
+Thumbs.db
+desktop.ini

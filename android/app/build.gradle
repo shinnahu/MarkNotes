@@ -1,0 +1,90 @@
+plugins {
+    id 'com.android.application'
+}
+
+def keystorePropsFile = rootProject.file('keystore.properties')
+def keystoreProps = new Properties()
+if (keystorePropsFile.exists()) {
+    keystorePropsFile.withInputStream { keystoreProps.load(it) }
+}
+
+// MarkNotes' interface, built by `node build.mjs` in src/web (build.ps1 does both).
+def webDist = rootProject.file('../src/web/dist')
+def webAssets = layout.buildDirectory.dir('generated/webassets').get().asFile
+
+tasks.register('copyWeb', Sync) {
+    from(webDist)
+    into(new File(webAssets, 'web'))
+    doFirst {
+        if (!webDist.exists()) throw new GradleException("Build the web UI first: cd src/web && node build.mjs")
+    }
+}
+
+android {
+    namespace 'com.marknotes.app'
+    compileSdk 35
+    buildToolsVersion "35.0.0"
+
+    defaultConfig {
+        // Its own application id: installs as its own app and never replaces another one.
+        applicationId "com.marknotes.app"
+        minSdk 26
+        targetSdk 35
+        versionCode 3
+        versionName "1.2"
+    }
+
+    sourceSets {
+        main {
+            assets.srcDirs += webAssets
+        }
+    }
+
+    signingConfigs {
+        release {
+            if (keystorePropsFile.exists()) {
+                storeFile rootProject.file(keystoreProps['storeFile'])
+                storePassword keystoreProps['storePassword']
+                keyAlias keystoreProps['keyAlias']
+                keyPassword keystoreProps['keyPassword']
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (keystorePropsFile.exists()) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    androidResources {
+        // The web UI's files are read as they are (no compression of already-small text, faster start).
+        noCompress += ['js', 'css', 'html']
+    }
+
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    dependenciesInfo {
+        includeInApk false
+        includeInBundle false
+    }
+}
+
+preBuild.dependsOn 'copyWeb'
+
+dependencies {
+    implementation project(':core')
+}

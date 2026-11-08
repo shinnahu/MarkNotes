@@ -1,0 +1,19 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "MarkNotesAndroid"
+// core: notes storage, bridge commands and PC sync (plain Java, also runs on the PC for tests)
+// app: the Android app (WebView with MarkNotes' interface)
+// devhost: PC-only test harness that runs core behind the real web UI in a browser
+include ':core', ':app', ':devhost'
