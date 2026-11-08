@@ -13,6 +13,7 @@
 powershell -ExecutionPolicy Bypass -File build.ps1              # app → src\publish
 powershell -ExecutionPolicy Bypass -File build.ps1 -Installer   # + installer\MarkNotes-Setup-<version>.exe
 powershell -ExecutionPolicy Bypass -File build.ps1 -Deploy      # + portable copy in the folder above src (close the app first)
+powershell -ExecutionPolicy Bypass -File build.ps1 -Installer -Public   # a build to share: no Spine player, setup in release\
 ```
 
 Needs Node.js 18+ and the .NET 8 SDK. The version lives in `host/MarkNotes.csproj`, `installer/MarkNotes.iss` and `web/package.json`.
@@ -101,6 +102,10 @@ inside MarkNotes, on by default).
   `web/licenses/spine-runtimes-LICENSE.txt` (copied there by `build.mjs`). It allows integrating them when each user of
   the product has their own Spine Editor license (or under Section 2 of the Spine Editor License Agreement), and any
   redistribution must include that license and copyright notice.
+- Builds to share leave the player out: `build.ps1 -Public` / `android\build.ps1 -Public` run `node build.mjs
+  --no-spine`, which sets `__SPINE__` to false (no file matches `SPINE_RX`, so a `.skel` is a plain file: a "↪ name"
+  link in notes, a file card on canvases), resolves the `@esotericsoftware` packages to an empty module and doesn't copy
+  the Spine license. The GitHub releases are built that way; a normal build is unchanged.
 
 ## Save as PDF
 

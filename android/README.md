@@ -65,6 +65,8 @@ opening folders in place.
 ## Build
 
 * `.\build.ps1` → web UI + `MarkNotes-Android-<version>.apk` (JDK 17+, Android SDK 35; Gradle offline).
+* `.\build.ps1 -Public` → the same without the Spine model player, in `..\release\`: the build to share with others
+  (see the main README's Third-party code).
 * Signing: `keystore.properties` (`storeFile`, `storePassword`, `keyAlias`, `keyPassword`) and the key it names are not
   in the repository; make your own and keep it, since an update installs over the app only when signed with the same key.
 * `core` is plain Java (also runs on the PC): `gradlew :core:selfTest` (note store), `devhost` runs the phone's Java side

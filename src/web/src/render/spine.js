@@ -11,7 +11,8 @@ import { persisted, saveState } from '../store.js';
 import { openMenu } from '../ui/menu.jsx';
 import { icon } from '../editor/domicons.js';
 
-export const SPINE_RX = /\.skel$/i;
+// Builds made with `node build.mjs --no-spine` have no player: no file is a Spine model there (a .skel is a plain file).
+export const SPINE_RX = __SPINE__ ? /\.skel$/i : /(?!)/;
 
 const POSES = [['standing', 'Standing'], ['aim', 'Aim'], ['cover', 'Cover'], ['skillcut', 'Cut-in']];
 const poseName = (p) => (POSES.find(([k]) => k === p) || [p, p])[1];
@@ -25,7 +26,8 @@ const MAX_SIDE = 3200;
 const MAX_LIVE = 6;
 
 let playerModule = null;
-const loadPlayer = () => (playerModule ||= import('@esotericsoftware/spine-player'));
+const loadPlayer = () => (playerModule ||= __SPINE__ ? import('@esotericsoftware/spine-player')
+  : Promise.reject(new Error('This build of MarkNotes has no Spine player.')));
 const live = new Set();
 // The hints go away once used: "drag to move" once a model was moved or zoomed, "double-click" once a canvas
 // card was double-clicked.

@@ -41,7 +41,8 @@ const IMG_RX = /\.(png|jpe?g|gif|webp|bmp|svg|avif)$/i;
 const NOTE_RX = /\.(md|markdown|txt)$/i;
 const VIDEO_RX = /\.(mp4|m4v|webm|mov|ogv)$/i;
 const AUDIO_RX = /\.(mp3|m4a|wav|ogg|flac)$/i;
-const MEDIA_RX = /\.(png|jpe?g|gif|webp|bmp|svg|avif|mp4|m4v|webm|mov|ogv|mp3|m4a|wav|ogg|flac|pdf|skel)$/i;
+const MEDIA_RX = __SPINE__ ? /\.(png|jpe?g|gif|webp|bmp|svg|avif|mp4|m4v|webm|mov|ogv|mp3|m4a|wav|ogg|flac|pdf|skel)$/i
+  : /\.(png|jpe?g|gif|webp|bmp|svg|avif|mp4|m4v|webm|mov|ogv|mp3|m4a|wav|ogg|flac|pdf)$/i;
 const URL_RX = /^(?:https?:\/\/|www\.)[^\s<>"]+$/i;
 const MIN_Z = 0.05;
 const MAX_Z = 3;
@@ -983,7 +984,7 @@ export class CanvasBoard {
     const files = (await loadFiles(this.ws.id, true)) || [];
     const media = files.filter((f) => MEDIA_RX.test(f) && !/(^|\/)\.(obsidian|trash)\//i.test(f));
     const pick = await pickFrom({
-      title: 'Add media', placeholder: 'Find a picture, video, audio file or Spine model…', empty: 'No pictures, videos or audio files in this workspace yet.',
+      title: 'Add media', placeholder: __SPINE__ ? 'Find a picture, video, audio file or Spine model…' : 'Find a picture, video or audio file…', empty: 'No pictures, videos or audio files in this workspace yet.',
       items: media.map((f) => {
         const k = kindOfFile(f);
         return { key: f, label: f.split('/').pop(), sub: f.includes('/') ? f.slice(0, f.lastIndexOf('/')) : '', icon: k === 'image' ? 'image' : k === 'video' ? 'film' : k === 'audio' ? 'music' : k === 'spine' ? 'play' : 'file', path: `${this.ws.dir}/${f}` };
@@ -1030,7 +1031,7 @@ export class CanvasBoard {
     if (this.locked()) return;
     const input = document.createElement('input');
     input.type = 'file';
-    input.accept = 'image/*,video/*,audio/*,.pdf,.skel';
+    input.accept = __SPINE__ ? 'image/*,video/*,audio/*,.pdf,.skel' : 'image/*,video/*,audio/*,.pdf';
     input.multiple = true;
     input.onchange = () => {
       const files = [...(input.files || [])];

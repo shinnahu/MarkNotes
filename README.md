@@ -6,6 +6,19 @@ account, no cloud, no other company in between.
 
 ![MarkNotes on Windows: a note with a cover picture, a checklist and a table, with workspaces and folders on the left](docs/images/editor.png)
 
+## Download
+
+The Windows installer and the Android APK are on the [latest release](https://github.com/shinnahu/MarkNotes/releases/latest).
+
+* **Windows 10 (1809 or later) or 11, 64-bit:** `MarkNotes-Setup-<version>.exe` installs for your user, without admin
+  rights. MarkNotes needs the .NET 8 Desktop Runtime and the WebView2 Runtime (Windows 11 already has it); if one is
+  missing, the installer offers its download page. The installer isn't code-signed, so Windows may say "Windows
+  protected your PC": click **More info**, then **Run anyway**.
+* **Android 8 or later:** open `MarkNotes-Android-<version>.apk` on the phone and allow installing from that source.
+  Play Protect may warn about an unknown developer: **Install anyway**.
+* The release builds leave out the Spine model player (see [Third-party code](#third-party-code)): `.skel` files are
+  plain files there.
+
 ## Live preview
 
 Markdown turns into headings, bold text and checklists as you type.
@@ -60,6 +73,9 @@ powershell -ExecutionPolicy Bypass -File build.ps1 -Installer   # + installer\Ma
    `.\gradlew.bat :app:assembleRelease` in `android/`. After that, `android\build.ps1` builds the web UI and
    `MarkNotes-Android-<version>.apk` offline.
 
+Add `-Public` to either build script for a build you share with others: it leaves out the Spine model player (see
+[Third-party code](#third-party-code)) and writes the installer or the APK to `release\`.
+
 ## Phone sync and privacy
 
 * Off until you turn on **Settings › Phone › Sync with my phone** on the PC.
@@ -73,8 +89,14 @@ powershell -ExecutionPolicy Bypass -File build.ps1 -Installer   # + installer\Ma
 Apart from the sync, MarkNotes only goes online for the optional speech-model download, link previews and web videos
 (see [src/README.md](src/README.md#network)).
 
+## License
+
+MarkNotes' own code is under the [MIT License](LICENSE). Third-party code keeps its own license.
+
 ## Third-party code
 
-The Spine model player uses the Spine Runtimes, which are under the Spine Runtimes License Agreement (see
+The Spine model player uses the Spine Runtimes, which are under the Spine Runtimes License Agreement: they may be
+passed on only by a Spine Editor licensee, or to people who each have their own Spine Editor license. So the release
+builds, and any build made with `-Public`, leave the player out; a normal build includes it, for your own use (see
 [src/README.md](src/README.md#spine-models)). Other dependencies are installed by npm, NuGet and Gradle under their own
 licenses.

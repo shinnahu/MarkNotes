@@ -4,12 +4,16 @@
     .\build.ps1                 build the app into src\publish
     .\build.ps1 -Installer      also build installer\MarkNotes-Setup-<version>.exe
     .\build.ps1 -Deploy         also copy the build into the folder above src (a portable copy)
+    .\build.ps1 -Public         a build to share with others: without the Spine model player (the Spine Runtimes
+                                may be passed on only by Spine Editor licensees); with -Installer, the setup goes
+                                to release\ instead of installer\
 
   Needs: Node.js 18+, .NET 8 SDK. Inno Setup is fetched from NuGet when -Installer is used.
 #>
 param(
     [switch]$Installer,
-    [switch]$Deploy
+    [switch]$Deploy,
+    [switch]$Public
 )
 $ErrorActionPreference = 'Stop'
 $src = $PSScriptRoot
@@ -20,7 +24,9 @@ Write-Host '== Web UI ==' -ForegroundColor Cyan
 Push-Location (Join-Path $src 'web')
 try {
     if (-not (Test-Path node_modules)) { npm install --no-audit --no-fund }
-    node build.mjs
+    $webArgs = @('build.mjs')
+    if ($Public) { $webArgs += '--no-spine' }
+    node @webArgs
     if ($LASTEXITCODE -ne 0) { throw 'Web build failed' }
 } finally { Pop-Location }
 
@@ -44,7 +50,9 @@ if ($Installer) {
         Expand-Archive $pkg -DestinationPath $tools -Force
         Remove-Item $pkg
     }
-    & $iscc "/DSourceDir=$publish" (Join-Path $src 'installer\MarkNotes.iss')
+    $isccArgs = @("/DSourceDir=$publish")
+    if ($Public) { $isccArgs += "/O$(Join-Path $root 'release')" }
+    & $iscc @isccArgs (Join-Path $src 'installer\MarkNotes.iss')
     if ($LASTEXITCODE -ne 0) { throw 'Installer build failed' }
 }
 
