@@ -37,9 +37,9 @@ Boards are written in the Obsidian Kanban plugin's format and canvases are JSON 
 A canvas holds pictures and web links too (YouTube videos and X posts show their preview, and their videos play right
 on the board), so it makes a good moodboard:
 
-![A moodboard canvas: a YouTube video card, anime game screenshots in a group, a colour palette and a sticky note](docs/images/moodboard.png)
+![A moodboard canvas: a YouTube video card, photos of moss on wood and stone in a group, a colour palette and a sticky note](docs/images/moodboard.png)
 
-<sub>The video card is a mock-up made from a game screenshot.</sub>
+<sub>The video card is a mock-up. The photos are public domain or CC0, from Wikimedia Commons.</sub>
 
 ## On your phone
 
