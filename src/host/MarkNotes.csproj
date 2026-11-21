@@ -20,9 +20,9 @@
     <Description>MarkNotes - notes and code notepad</Description>
     <Company>MarkNotes</Company>
     <Copyright>MarkNotes</Copyright>
-    <Version>2.5.1</Version>
-    <FileVersion>2.5.1.0</FileVersion>
-    <InformationalVersion>2.5.1</InformationalVersion>
+    <Version>2.5.3</Version>
+    <FileVersion>2.5.3.0</FileVersion>
+    <InformationalVersion>2.5.3</InformationalVersion>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>

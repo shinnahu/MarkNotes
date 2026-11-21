@@ -3,7 +3,7 @@
 // deleted and adding the link again downloads a fresh preview.
 
 import * as api from './api.js';
-import { settings } from './store.js';
+import { settings, toast } from './store.js';
 
 const pending = new Map(); // `${doc}\n${url}` → Promise<info|null>
 const timers = new Map();
@@ -28,6 +28,17 @@ export function refreshLinkPreview(url, doc) {
   const p = api.call('link.refresh', { url, doc }).catch(() => null);
   pending.set(`${doc}\n${url}`, p);
   return p;
+}
+
+/**
+ * "Open image" on a picture of an X post (pic from embeds.js pictureAt): X's large version opens in the usual
+ * picture program. The host downloads it once and keeps it with the saved post.
+ */
+export function openPostPicture(url, pic) {
+  return api.call('link.openImage', { url, quote: pic.quote, index: pic.index }).then((r) => {
+    if (r && r.fallback) toast('X no longer has the large picture, so the saved one opened', 'info', 4500);
+    else if (!r || !r.opened) toast('This picture was not saved', 'warning');
+  }).catch((e) => toast('Could not open the picture: ' + e.message, 'error'));
 }
 
 /** The links a document uses right now (debounced). */

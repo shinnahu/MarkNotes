@@ -6,10 +6,11 @@ import { StateField } from '@codemirror/state';
 import { EditorView, Decoration, WidgetType } from '@codemirror/view';
 import { syntaxTree, syntaxTreeAvailable } from '@codemirror/language';
 import { previewHooks, refreshPreview } from './livepreview.js';
-import { getPreview, refreshLinkPreview, syncPreviews, linkPreviewsOn } from '../previews.js';
-import { renderEmbed, injectEmbedCss, isTweetUrl, youTubeId, hostOf } from '../render/embeds.js';
+import { getPreview, refreshLinkPreview, syncPreviews, linkPreviewsOn, openPostPicture } from '../previews.js';
+import { renderEmbed, injectEmbedCss, isTweetUrl, youTubeId, hostOf, pictureAt } from '../render/embeds.js';
 import { openMenu } from '../ui/menu.jsx';
 import { blockBox, onBlockBox } from './blockbox.js';
+import { revealed } from './reveal.js';
 
 injectEmbedCss();
 
@@ -52,7 +53,10 @@ class LinkCard extends WidgetType {
     card.addEventListener('contextmenu', (e) => {
       e.preventDefault();
       e.stopPropagation();
+      const pic = pictureAt(e.target);
       openMenu(e.clientX, e.clientY, [
+        pic && { label: 'Open image', icon: 'external', run: () => openPostPicture(url, pic) },
+        pic && { sep: true },
         { label: 'Open in browser', icon: 'external', run: () => hooks.openLink(url) },
         { label: 'Edit link', icon: 'pencil', run: () => { const pos = view.posAtDOM(card); view.dispatch({ selection: { anchor: view.state.doc.lineAt(pos).to } }); view.focus(); } },
         { label: 'Copy link', icon: 'copy', run: () => navigator.clipboard.writeText(url) },
@@ -79,7 +83,8 @@ function build(state) {
       if (!m) return false;
       const url = m[1] || m[2];
       urls.push(url);
-      const editing = state.selection.ranges.some((r) => r.from <= line.to && r.to >= line.from);
+      // The address shows for the caret on its line, not for a selection passing over the card (copying it).
+      const editing = revealed(state, line.from, line.to);
       if (!editing) ranges.push(Decoration.replace({ widget: new LinkCard(url), block: true }).range(line.from, line.to));
       return false;
     },

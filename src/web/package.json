@@ -1,7 +1,7 @@
 {
   "name": "marknotes-web",
   "private": true,
-  "version": "2.5.1",
+  "version": "2.5.3",
   "description": "MarkNotes front-end (runs inside the WebView2 host)",
   "type": "module",
   "scripts": {

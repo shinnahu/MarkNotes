@@ -8,6 +8,7 @@ import { resolveAssetUrl, decodeLink } from '../util.js';
 import { parseWiki } from './mdext.js';
 import { mountSpine, SPINE_RX } from '../render/spine.js';
 import { openMenu } from '../ui/menu.jsx';
+import { revealed } from './reveal.js';
 
 /** Hooks the app provides: open links, image menus, the note path, [[name]] lookups. */
 export const previewHooks = Facet.define({
@@ -23,10 +24,8 @@ export const refreshPreview = StateEffect.define();
 const hidden = Decoration.replace({});
 const IMG_EXT = /\.(png|jpe?g|gif|webp|bmp|svg|avif)$/i;
 
-function touches(state, from, to) {
-  for (const r of state.selection.ranges) if (r.from <= to && r.to >= from) return true;
-  return false;
-}
+/** The caret (or a selection inside the line) is on [from, to]: its markdown shows (reveal.js). */
+const touches = revealed;
 
 function lineTouched(state, pos) {
   const line = state.doc.lineAt(pos);

@@ -5,6 +5,7 @@
 import { StateField } from '@codemirror/state';
 import { EditorView, Decoration, WidgetType } from '@codemirror/view';
 import { syntaxTree } from '@codemirror/language';
+import { revealed } from './reveal.js';
 
 class HtmlWidget extends WidgetType {
   constructor(html, from, render) {
@@ -42,7 +43,7 @@ export function htmlBlocks(render) {
         const from = state.doc.lineAt(node.from).from;
         const endAt = node.to > node.from && state.doc.lineAt(node.to).from === node.to ? node.to - 1 : node.to;
         const to = state.doc.lineAt(endAt).to;
-        const touched = state.selection.ranges.some((r) => r.from <= to && r.to >= from);
+        const touched = revealed(state, from, to);
         if (!touched && to > from) ranges.push(Decoration.replace({ widget: new HtmlWidget(state.sliceDoc(from, to), from, render), block: true }).range(from, to));
         return false;
       },

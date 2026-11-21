@@ -18,8 +18,8 @@ import { isAbs, joinPath, dirname, readFileAsDataUrl } from '../util.js';
 import * as api from '../api.js';
 import { CANVAS_CSS } from './canvascss.js';
 import { renderMarkdown } from '../render/markdown.js';
-import { getPreview, refreshLinkPreview, syncPreviews, linkPreviewsOn } from '../previews.js';
-import { renderEmbed, renderLocalMedia, EMBED_CSS, youTubeId, isTweetUrl, hostOf } from '../render/embeds.js';
+import { getPreview, refreshLinkPreview, syncPreviews, linkPreviewsOn, openPostPicture } from '../previews.js';
+import { renderEmbed, renderLocalMedia, EMBED_CSS, youTubeId, isTweetUrl, hostOf, pictureAt } from '../render/embeds.js';
 import { mountSpine, SPINE_CSS, SPINE_RX } from '../render/spine.js';
 import { parseCanvas, stringifyCanvas } from './canvasfmt.js';
 import { editorMenuItems } from '../editor/editmenu.js';
@@ -2818,7 +2818,7 @@ export class CanvasBoard {
       const n = this.byId(nodeEl.dataset.id);
       if (!n) return;
       if (!this.sel.has(n.id)) this.setSelection([n.id]);
-      openMenu(e.clientX, e.clientY, this.sel.size > 1 ? this.selectionMenu(p) : this.nodeMenu(n, p), { minWidth: 230 });
+      openMenu(e.clientX, e.clientY, this.sel.size > 1 ? this.selectionMenu(p) : this.nodeMenu(n, p, pictureAt(e.target)), { minWidth: 230 });
       return;
     }
     // The board, like Obsidian's canvas menu.
@@ -2879,8 +2879,8 @@ export class CanvasBoard {
     ];
   }
 
-  /** One card: its own commands first (like Obsidian's menus for text, files, links and groups). */
-  nodeMenu(n, p) {
+  /** One card: its own commands first (like Obsidian's menus for text, files, links and groups). pic: a post's picture right-clicked. */
+  nodeMenu(n, p, pic = null) {
     const ro = this.readOnly;
     const file = n.type === 'file' ? String(n.file || '') : '';
     const path = n.type === 'file' ? this.resolveFile(file) : null;
@@ -2902,6 +2902,7 @@ export class CanvasBoard {
       if (path) own.push({ label: 'Show in system explorer', icon: 'folder-open', run: () => api.call('app.reveal', { path }) });
       if (path) own.push({ label: 'Reveal file in navigation', icon: 'sidebar', run: () => this.revealInNavigation(path) });
     } else if (n.type === 'link') {
+      if (pic) own.push({ label: 'Open image', icon: 'external', run: () => openPostPicture(n.url, pic) }, { sep: true });
       own.push({ label: 'Open in browser', icon: 'external', run: () => openLink(n.url, this.key) });
       own.push({ label: 'Copy link', icon: 'link', run: () => navigator.clipboard.writeText(n.url).then(() => toast('Link copied', 'success', 1200)) });
       if (!ro) own.push({ label: 'Edit link…', icon: 'pencil', run: () => this.editLink(n) });

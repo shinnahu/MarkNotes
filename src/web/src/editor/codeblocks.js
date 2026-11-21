@@ -9,6 +9,7 @@ import { loadParser, renderHighlighted, languageLabel } from './highlight.js';
 import { hash } from '../util.js';
 import { icon } from './domicons.js';
 import { blockBox, onBlockBox } from './blockbox.js';
+import { revealed } from './reveal.js';
 
 /** Per-note storage for minimised / no-wrap blocks, provided by the app. */
 export const codeBlockStore = Facet.define({
@@ -17,10 +18,8 @@ export const codeBlockStore = Facet.define({
 
 export const refreshCodeBlocks = StateEffect.define();
 
-function touches(state, from, to) {
-  for (const r of state.selection.ranges) if (r.from <= to && r.to >= from) return true;
-  return false;
-}
+/** The caret (or a selection inside the block) is in [from, to]: the code shows as text (reveal.js). */
+const touches = revealed;
 
 function blockId(info, code) {
   return hash(info + '\u0000' + code);

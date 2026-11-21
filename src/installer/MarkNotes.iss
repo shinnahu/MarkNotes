@@ -4,7 +4,7 @@
 ; touched by the installer or the uninstaller.
 
 #define AppName "MarkNotes"
-#define AppVersion "2.5.1"
+#define AppVersion "2.5.3"
 #define AppExe "MarkNotes.exe"
 #ifndef SourceDir
   #define SourceDir "..\..\publish"

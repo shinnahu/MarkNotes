@@ -212,8 +212,9 @@ function mediaGrid(parent, list, url, opts) {
     // Tall videos get a narrower box (at most 520 px high in notes), like on X.
     if (r < 1) grid.style.width = `min(100%, ${Math.round(520 * r)}px)`;
   }
-  list.slice(0, 4).forEach((m) => {
+  list.slice(0, 4).forEach((m, i) => {
     const fig = el('div', 'mn-media ' + (m.kind === 'photo' ? 'photo' : 'video'), grid);
+    fig.dataset.index = String(i);
     if (m.image) poster(fig, m.image, m.kind === 'photo' && !single ? 'cover' : '', opts.onResize);
     else fig.classList.add('loaded');
     if (m.kind === 'photo') return;
@@ -236,6 +237,13 @@ function mediaGrid(parent, list, url, opts) {
     });
   });
   return grid;
+}
+
+/** The photo of an X post under `target` (a right-click): {index, quote}, or null. */
+export function pictureAt(target) {
+  const fig = target && target.closest ? target.closest('.mn-tweet .mn-media.photo') : null;
+  if (!fig || fig.dataset.index == null) return null;
+  return { index: Number(fig.dataset.index), quote: !!fig.closest('.mn-quote') };
 }
 
 /**
@@ -472,7 +480,7 @@ export const EMBED_CSS = `
 .mn-grid.n4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; aspect-ratio: 16 / 9; }
 .mn-grid.n1 > .mn-media { height: 100%; min-height: 120px; }
 .mn-quote { margin-top: 10px; padding: 10px 12px; border-radius: 14px; border: 1px solid color-mix(in srgb, var(--text-muted) 30%, transparent); min-width: 0; }
-.mn-quote .mn-tweet-text { margin-top: 6px; font-size: 14px; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.mn-quote .mn-tweet-text { margin-top: 6px; font-size: 14px; }
 .mn-quote .mn-grid { margin-top: 8px; border-radius: 10px; }
 .mn-tweet-foot { display: flex; align-items: center; gap: 14px; margin-top: 10px; font-size: 12.5px; color: var(--text-muted); flex-wrap: wrap; }
 .mn-likes { color: #f91880; }

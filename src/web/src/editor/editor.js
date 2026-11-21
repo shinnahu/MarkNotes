@@ -5,7 +5,7 @@ import {
   EditorView, keymap, drawSelection, dropCursor, highlightSpecialChars, rectangularSelection,
   crosshairCursor, lineNumbers, placeholder,
 } from '@codemirror/view';
-import { EditorState, Compartment, Facet, Annotation } from '@codemirror/state';
+import { EditorState, Compartment, Facet } from '@codemirror/state';
 import { history, defaultKeymap, historyKeymap, undo, redo, selectAll } from '@codemirror/commands';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
@@ -21,9 +21,10 @@ import { codeBlocks, codeBlockStore } from './codeblocks.js';
 import { smartPaste, pasteHooks } from './paste.js';
 import { toggleWrap, cycleHeading, insertCodeBlock, insertLink, smartTab, smartUntab, insertDateTime, toggleLinePrefix } from './commands.js';
 import { htmlBlocks } from './htmlblocks.js';
+import { caretPlaced, Reload } from './reveal.js';
 
-/** Marks programmatic changes that must not count as the user's edits (none today, kept for reloads). */
-export const Reload = Annotation.define();
+/** Marks programmatic changes that must not count as the user's edits (the text reloaded from disk). */
+export { Reload };
 
 /** Mutable reference to the note a state belongs to ({key, kind}); updated when a note is renamed. */
 export const docRef = Facet.define({ combine: (v) => v[0] || { key: '', kind: 'md' } });
@@ -105,6 +106,7 @@ function extensions(ref, readOnly) {
   const md = ref.kind === 'md';
   return [
     docRef.of(ref),
+    caretPlaced,
     history({ minDepth: 2000, newGroupDelay: 700 }),
     drawSelection(),
     dropCursor(),
@@ -230,8 +232,13 @@ export function getView() {
 /** Creates the state for a note's text. */
 export function createState(key, ext, text, readOnly = false) {
   const ref = { key, kind: kindFor(ext) };
-  // Start below the front matter so the properties stay folded.
-  const start = ref.kind === 'md' ? Math.min(bodyStart(text), text.length) : 0;
+  // Start below the front matter so the properties stay folded, and after a title's "# ": its marks stay
+  // hidden until the caret is moved (reveal.js), so typing right away writes in the title it shows.
+  let start = ref.kind === 'md' ? Math.min(bodyStart(text), text.length) : 0;
+  if (ref.kind === 'md') {
+    const m = /^#{1,6}[ \t]+(?=\S)/.exec(text.slice(start, start + 12));
+    if (m) start += m[0].length;
+  }
   const state = EditorState.create({ doc: text, selection: { anchor: start }, extensions: extensions(ref, readOnly) });
   stateVersion.set(state, configVersion);
   return state;

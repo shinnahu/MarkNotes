@@ -467,6 +467,13 @@ public sealed class Bridge : IDisposable
         OnAsync("link.refresh", a => Links.RefreshAsync(Req(a, "url"), S(a, "doc") ?? ""));
         OnBg("link.sync", a => { Links.Sync(Req(a, "doc"), Strs(a, "urls")); return null; });
         OnBg("link.rename", a => { Links.Rename(Req(a, "from"), Req(a, "to")); return null; });
+        // "Open image" on a picture of an X post: X's large version, in the usual picture program.
+        OnAsync("link.openImage", async a =>
+        {
+            var (path, fallback) = await Links.LargePictureAsync(Req(a, "url"), B(a, "quote"), (int)L(a, "index"));
+            if (path != null) ShellUtil.OpenWithShell(path);
+            return (object)new { opened = path != null, fallback };
+        });
         // Only what is already on this PC (PDFs never fetch anything).
         OnBg("link.cached", a => Links.Cached(Req(a, "url")));
         On("app.setEmbeds", a => { EmbedsAllowed = B(a, "on"); return null; });

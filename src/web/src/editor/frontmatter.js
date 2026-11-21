@@ -7,6 +7,7 @@ import { previewHooks, refreshPreview } from './livepreview.js';
 import { readFrontmatter } from './mdext.js';
 import { icon } from './domicons.js';
 import { blockBox, onBlockBox } from './blockbox.js';
+import { revealed } from './reveal.js';
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -125,7 +126,7 @@ function build(state) {
     }).range(0));
   }
   const endLine = state.doc.lineAt(Math.max(0, fm.to - 1));
-  const editing = state.selection.ranges.some((r) => r.from <= endLine.to && r.to >= 0);
+  const editing = revealed(state, 0, endLine.to);
   if (!editing) {
     ranges.push(Decoration.replace({ widget: new PropsWidget(Object.keys(fm.data), fm.to), block: true }).range(0, endLine.to));
   } else {
